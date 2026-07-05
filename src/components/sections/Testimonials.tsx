@@ -6,21 +6,21 @@ import { Star, MessageSquare } from "lucide-react";
 const testimonials = [
   {
     quote: "BrainSeekers completely transformed how my son approaches problem-solving. It's not just about chess; his math and science grades have seen a noticeable improvement because he learned how to plan his decisions.",
-    author: "Elena Rostova",
-    role: "Parent of Leo (Under-10 Competitor)",
+    author: "Priya Sharma",
+    role: "Parent of Aarav (Under-10 Competitor)",
     rating: 5,
     tag: "Parent",
   },
   {
     quote: "The FIDE certified coaches are unbelievable. They break down Grandmaster games into easy-to-digest positional concepts. My tactical vision has sharpened tremendously, and I've gained 400 ELO points.",
-    author: "Marcus Vance",
+    author: "Rahul Verma",
     role: "Adult Club Member",
     rating: 5,
     tag: "Adult Learner",
   },
   {
     quote: "The interactive boards and weekly tournament challenges are incredibly engaging. I look forward to the lessons every week. They make deep positional analysis feel fun and rewarding.",
-    author: "Tariq Mahmood",
+    author: "Ananya Desai",
     role: "High School League Captain",
     rating: 5,
     tag: "Scholastic Competitor",

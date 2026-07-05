@@ -210,19 +210,19 @@ export default function Hero() {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mt-10 md:mt-20 pt-8 md:pt-10 border-t border-white/5"
         >
           <div>
-            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">5,000+</h3>
+            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">0</h3>
             <p className="text-xs md:text-sm text-slate-500 mt-1">Students Worldwide</p>
           </div>
           <div>
-            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">15+</h3>
+            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">0</h3>
             <p className="text-xs md:text-sm text-slate-500 mt-1">FIDE Certified Coaches</p>
           </div>
           <div>
-            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">120+</h3>
+            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">0</h3>
             <p className="text-xs md:text-sm text-slate-500 mt-1">Tournament Medals</p>
           </div>
           <div>
-            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">99.2%</h3>
+            <h3 className="font-display text-3xl md:text-4xl font-extrabold text-white">0%</h3>
             <p className="text-xs md:text-sm text-slate-500 mt-1">Rating Satisfaction</p>
           </div>
         </motion.div>
