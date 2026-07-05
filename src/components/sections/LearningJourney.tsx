@@ -116,14 +116,14 @@ export default function LearningJourney() {
                   isSelected ? "bg-royal-500/10" : "hover:bg-white/5"
                 } md:bg-transparent md:hover:bg-transparent`}
               >
-                <div className="relative z-10 space-y-1">
-                  <span className={`text-[10px] font-mono font-bold tracking-widest ${isSelected ? "text-royal-500" : "text-slate-500 group-hover:text-slate-400"} transition-colors`}>
+                <span className="relative z-10 space-y-1 block">
+                  <span className={`text-[10px] font-mono font-bold tracking-widest ${isSelected ? "text-royal-500" : "text-slate-500 group-hover:text-slate-400"} transition-colors block`}>
                     {stage.num}
                   </span>
-                  <h3 className={`font-display font-bold text-sm md:text-lg whitespace-nowrap ${isSelected ? "text-white" : "text-slate-400 group-hover:text-slate-200"} transition-colors`}>
+                  <span className={`font-display font-bold text-sm md:text-lg whitespace-nowrap ${isSelected ? "text-white" : "text-slate-400 group-hover:text-slate-200"} transition-colors block`}>
                     {stage.name}
-                  </h3>
-                </div>
+                  </span>
+                </span>
                 {isSelected && (
                   <motion.div
                     layoutId="journeyTabLine"
