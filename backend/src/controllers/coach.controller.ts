@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Coach } from '../models/coach.model';
 import { User, Role } from '../models/user.model';
 import { AuthRequest } from '../middleware/auth.middleware';
