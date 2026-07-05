@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const certificate_controller_1 = require("../controllers/certificate.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.verifyToken);
+router.get('/', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.STUDENT), certificate_controller_1.listCertificates);
+router.get('/:id/download', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.STUDENT), certificate_controller_1.downloadCertificate);
+router.get('/:id', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.STUDENT), certificate_controller_1.getCertificate);
+router.post('/', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), (0, validate_middleware_1.validate)(schemas_1.certificateCreateSchema), certificate_controller_1.createCertificate);
+router.delete('/:id', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), certificate_controller_1.deleteCertificate);
+exports.default = router;

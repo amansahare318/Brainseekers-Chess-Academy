@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_controller_1 = require("../controllers/auth.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.post('/login', (0, validate_middleware_1.validate)(schemas_1.loginSchema), auth_controller_1.login);
+router.post('/logout', auth_controller_1.logout);
+router.post('/forgot-password', (0, validate_middleware_1.validate)(schemas_1.forgotPasswordSchema), auth_controller_1.forgotPassword);
+router.post('/reset-password', (0, validate_middleware_1.validate)(schemas_1.resetPasswordSchema), auth_controller_1.resetPassword);
+router.get('/me', auth_middleware_1.verifyToken, auth_controller_1.me);
+router.post('/change-password', auth_middleware_1.verifyToken, (0, validate_middleware_1.validate)(schemas_1.changePasswordSchema), auth_controller_1.changePassword);
+router.post('/register', auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), (0, validate_middleware_1.validate)(schemas_1.registerSchema), auth_controller_1.register);
+router.post('/provision', auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), (0, validate_middleware_1.validate)(schemas_1.provisionSchema), auth_controller_1.provisionCredentials);
+exports.default = router;

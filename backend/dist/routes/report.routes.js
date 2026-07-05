@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const report_controller_1 = require("../controllers/report.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.verifyToken);
+router.get('/student/:studentId', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH, user_model_1.Role.STUDENT, user_model_1.Role.PARENT), report_controller_1.getReportForStudent);
+router.get('/', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH, user_model_1.Role.STUDENT, user_model_1.Role.PARENT), report_controller_1.listReports);
+router.post('/', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH), (0, validate_middleware_1.validate)(schemas_1.reportCreateSchema), report_controller_1.createReport);
+router.patch('/:id', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH), report_controller_1.updateReport);
+exports.default = router;

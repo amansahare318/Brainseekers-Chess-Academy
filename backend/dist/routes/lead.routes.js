@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const lead_controller_1 = require("../controllers/lead.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.post('/', (0, validate_middleware_1.validate)(schemas_1.leadCreateSchema), lead_controller_1.createLead);
+router.get('/', auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), lead_controller_1.getLeads);
+router.get('/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), lead_controller_1.getLeadById);
+router.patch('/:id', auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), (0, validate_middleware_1.validate)(schemas_1.leadUpdateSchema), lead_controller_1.updateLead);
+router.post('/:id/convert', auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN), (0, validate_middleware_1.validate)(schemas_1.leadConvertSchema), lead_controller_1.convertLead);
+exports.default = router;

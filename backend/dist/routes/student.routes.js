@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const student_controller_1 = require("../controllers/student.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.verifyToken);
+router.get('/parent/children', (0, auth_middleware_1.authorize)(user_model_1.Role.PARENT), student_controller_1.getParentChildren);
+router.use((0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH));
+router.get('/', (0, validate_middleware_1.validate)(schemas_1.studentListQuerySchema, 'query'), student_controller_1.getStudents);
+router.post('/', (0, validate_middleware_1.validate)(schemas_1.studentCreateSchema), student_controller_1.createStudent);
+router.get('/:id', student_controller_1.getStudentById);
+router.patch('/:id', (0, validate_middleware_1.validate)(schemas_1.studentUpdateSchema), student_controller_1.updateStudent);
+router.delete('/:id', student_controller_1.deleteStudent);
+exports.default = router;

@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const gallery_controller_1 = require("../controllers/gallery.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.get('/', gallery_controller_1.listGallery);
+router.get('/categories', gallery_controller_1.listCategories);
+router.use(auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN));
+router.post('/', (0, validate_middleware_1.validate)(schemas_1.galleryCreateSchema), gallery_controller_1.createGalleryImage);
+router.delete('/:id', gallery_controller_1.deleteGalleryImage);
+exports.default = router;

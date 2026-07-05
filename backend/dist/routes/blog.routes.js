@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const blog_controller_1 = require("../controllers/blog.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.get('/public', blog_controller_1.listPublicBlogs);
+router.get('/public/:slug', blog_controller_1.getPublicBlogBySlug);
+router.use(auth_middleware_1.verifyToken, (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN));
+router.get('/', blog_controller_1.listAdminBlogs);
+router.post('/', (0, validate_middleware_1.validate)(schemas_1.blogCreateSchema), blog_controller_1.createBlog);
+router.patch('/:id', (0, validate_middleware_1.validate)(schemas_1.blogUpdateSchema), blog_controller_1.updateBlog);
+router.delete('/:id', blog_controller_1.deleteBlog);
+exports.default = router;

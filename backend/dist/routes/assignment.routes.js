@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const assignment_controller_1 = require("../controllers/assignment.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const validate_middleware_1 = require("../middleware/validate.middleware");
+const schemas_1 = require("../validations/schemas");
+const user_model_1 = require("../models/user.model");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.verifyToken);
+router.get('/submissions', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH), assignment_controller_1.listSubmissions);
+router.post('/submit', (0, auth_middleware_1.authorize)(user_model_1.Role.STUDENT), assignment_controller_1.submitAssignment);
+router.get('/', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH, user_model_1.Role.STUDENT), assignment_controller_1.listAssignments);
+router.post('/', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH), (0, validate_middleware_1.validate)(schemas_1.assignmentCreateSchema), assignment_controller_1.createAssignment);
+router.patch('/:id', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH), assignment_controller_1.updateAssignment);
+router.delete('/:id', (0, auth_middleware_1.authorize)(user_model_1.Role.ADMIN, user_model_1.Role.COACH), assignment_controller_1.deleteAssignment);
+exports.default = router;
