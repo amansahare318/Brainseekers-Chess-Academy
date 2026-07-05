@@ -4,6 +4,7 @@ import {
   listCoaches,
   createCoachProfile,
   linkCoachUser,
+  getPublicCoaches,
 } from '../controllers/coach.controller';
 import { verifyToken, authorize } from '../middleware/auth.middleware';
 import { validate } from '../middleware/validate.middleware';
@@ -11,6 +12,8 @@ import { coachCreateSchema } from '../validations/schemas';
 import { Role } from '../models/user.model';
 
 const router = Router();
+
+router.get('/public', getPublicCoaches);
 
 router.use(verifyToken);
 

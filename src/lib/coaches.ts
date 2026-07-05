@@ -33,3 +33,7 @@ export async function fetchCoachOptions(): Promise<CoachOption[]> {
 export async function fetchCoachMe(): Promise<CoachMeResponse> {
   return apiRequest<CoachMeResponse>('/api/coaches/me', { token: token() });
 }
+
+export async function fetchPublicCoaches(): Promise<ApiCoach[]> {
+  return apiRequest<ApiCoach[]>('/api/coaches/public');
+}

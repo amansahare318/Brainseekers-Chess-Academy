@@ -1,4 +1,4 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { Coach } from '../models/coach.model';
 import { User, Role } from '../models/user.model';
@@ -29,6 +29,15 @@ export const listCoaches = async (_req: AuthRequest, res: Response, next: NextFu
       })
     );
     res.json(withLink);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getPublicCoaches = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const coaches = await Coach.find().sort({ createdAt: -1 });
+    res.json(coaches);
   } catch (err) {
     next(err);
   }

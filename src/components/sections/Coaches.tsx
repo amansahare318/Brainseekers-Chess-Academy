@@ -1,37 +1,25 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Award, Star, Flame, Trophy } from "lucide-react";
-
-const coaches = [
-  {
-    name: "Nikolai Vlasov",
-    title: "Grandmaster (GM)",
-    elo: "Peak ELO 2610",
-    image: "/coaches/nikolai.png",
-    stat: "12+ Years Coaching",
-    bio: "Former European youth champion coach. Specializes in advanced opening novelties and psychological endgame preparation.",
-  },
-  {
-    name: "Sarah Chen",
-    title: "International Master (IM)",
-    elo: "Peak ELO 2450",
-    image: "/coaches/sarah.png",
-    stat: "8+ Years Coaching",
-    bio: "Experienced tactical specialist. Created the academy's core calculation logic syllabus and tactical middlegame courses.",
-  },
-  {
-    name: "Robert Sterling",
-    title: "FIDE Master (FM)",
-    elo: "Peak ELO 2380",
-    image: "/coaches/robert.png",
-    stat: "6+ Years Coaching",
-    bio: "Focuses on foundational progression and tournament preparation. Coached over 30 students to rating milestones above 1800 ELO.",
-  },
-];
+import { Award, Star, Trophy } from "lucide-react";
+import { fetchPublicCoaches, ApiCoach } from "@/lib/coaches";
 
 export default function Coaches() {
+  const [coaches, setCoaches] = useState<ApiCoach[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPublicCoaches()
+      .then((data) => setCoaches(data || []))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return null;
+  if (!coaches || coaches.length === 0) return null;
+
   return (
     <section id="coaches" className="py-14 md:py-24 bg-navy-950/40 relative overflow-hidden">
       {/* Decorative side grid */}
@@ -55,7 +43,7 @@ export default function Coaches() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-8">
           {coaches.map((coach, i) => (
             <motion.div
-              key={coach.name}
+              key={coach._id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -65,7 +53,7 @@ export default function Coaches() {
               {/* Image Frame — shorter on mobile */}
               <div className="relative h-60 md:h-96 w-full overflow-hidden bg-slate-900">
                 <Image
-                  src={coach.image}
+                  src={coach.photoUrl || "/logo.png"}
                   alt={coach.name}
                   fill
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
@@ -90,18 +78,18 @@ export default function Coaches() {
                       {coach.name}
                     </h3>
                     <span className="text-xs font-mono font-semibold text-royal-400 bg-royal-950/40 px-2 py-1 rounded-md border border-royal-500/10 shrink-0">
-                      {coach.elo}
+                      {coach.elo} ELO
                     </span>
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed">
-                    {coach.bio}
+                    Dedicated chess coach committed to helping students achieve their goals and improve their strategic thinking.
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-semibold text-slate-500">
                   <span className="flex items-center gap-1">
                     <Award className="w-4 h-4 text-royal-500" />
-                    {coach.stat}
+                    Professional Coach
                   </span>
                   <span className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-royal-500 fill-royal-500" />
