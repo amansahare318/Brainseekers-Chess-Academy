@@ -4,7 +4,6 @@ import WhyChoose from "@/components/sections/WhyChoose";
 import LearningJourney from "@/components/sections/LearningJourney";
 import Courses from "@/components/sections/Courses";
 import Coaches from "@/components/sections/Coaches";
-import SuccessStories from "@/components/sections/SuccessStories";
 import Testimonials from "@/components/sections/Testimonials";
 import FreeTrialCTA from "@/components/sections/FreeTrialCTA";
 import Footer from "@/components/layout/Footer";
@@ -19,7 +18,6 @@ export default function Home() {
         <LearningJourney />
         <Courses />
         <Coaches />
-        <SuccessStories />
         <Testimonials />
         <FreeTrialCTA />
       </main>
