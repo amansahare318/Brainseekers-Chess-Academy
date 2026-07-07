@@ -23,7 +23,8 @@ export default function TrialClassPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [whatsappNumber, setWhatsappNumber] = useState("");
+  const FALLBACK_WHATSAPP = "918485079048";
+  const [whatsappNumber, setWhatsappNumber] = useState(FALLBACK_WHATSAPP);
 
   useEffect(() => {
     // Fetch settings for WhatsApp number
@@ -217,16 +218,20 @@ Thank you!`;
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-royal-600 to-royal-500 text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2"
+                        className="w-full px-6 py-4 rounded-xl bg-[#25D366] hover:bg-[#128C7E] text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2 transition-colors shadow-lg shadow-[#25D366]/20"
                       >
-                        {submitting ? "Submitting Request..." : whatsappNumber ? "Continue to WhatsApp" : "Submit Request"}
-                        {!submitting && whatsappNumber && <MessageCircle className="w-4 h-4" />}
+                        {submitting ? (
+                          "Submitting..."
+                        ) : (
+                          <>
+                            <MessageCircle className="w-4 h-4" />
+                            Send Message on WhatsApp
+                          </>
+                        )}
                       </button>
-                      {whatsappNumber && (
-                        <p className="text-center text-xs text-slate-500 mt-3">
-                          You will be redirected to WhatsApp to confirm your trial slot.
-                        </p>
-                      )}
+                      <p className="text-center text-xs text-slate-500 mt-3">
+                        You will be redirected to WhatsApp to confirm your trial slot.
+                      </p>
                     </div>
                   </form>
                 </motion.div>
