@@ -8,6 +8,7 @@ export interface ApiCoach {
   title: string;
   elo: string;
   photoUrl?: string;
+  photoPublicId?: string;
   user?: string;
   linkedUser?: { email?: string; role?: string };
 }
