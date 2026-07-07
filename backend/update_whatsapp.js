@@ -11,10 +11,10 @@ async function run() {
   await mongoose.connect(MONGO_URI);
   await Settings.updateOne({}, { 
     $set: { 
-      whatsapp: "+918485079068",
+      whatsapp: "+918485079048",
       email: "brainseekerschessacademy@gmail.com",
       address: "New Manish Nagar , Nagpur , Maharashtra.",
-      mobile: "+918485079068"
+      mobile: "+918485079048"
     } 
   }, { upsert: true });
   console.log("Updated AcademySettings");
