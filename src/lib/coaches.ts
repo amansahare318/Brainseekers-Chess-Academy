@@ -37,3 +37,15 @@ export async function fetchCoachMe(): Promise<CoachMeResponse> {
 export async function fetchPublicCoaches(): Promise<ApiCoach[]> {
   return apiRequest<ApiCoach[]>('/api/coaches/public');
 }
+
+export async function fetchCoaches(): Promise<ApiCoach[]> {
+  return apiRequest<ApiCoach[]>('/api/coaches', { token: token() });
+}
+
+export async function createCoach(data: Partial<ApiCoach> & { password?: string }): Promise<ApiCoach> {
+  return apiRequest<ApiCoach>('/api/coaches', {
+    method: 'POST',
+    token: token(),
+    body: data,
+  });
+}

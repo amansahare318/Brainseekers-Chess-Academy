@@ -26,6 +26,7 @@ const roleLinks = {
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Leads Intake", href: "/admin/leads", icon: UserCheck },
     { name: "Students", href: "/admin/students", icon: Users },
+    { name: "Coaches", href: "/admin/coaches", icon: Users },
     { name: "Academy Batches", href: "/admin/batches", icon: Calendar },
     { name: "Attendance", href: "/admin/attendance", icon: Calendar },
     { name: "Assignments", href: "/admin/assignments", icon: CheckSquare },

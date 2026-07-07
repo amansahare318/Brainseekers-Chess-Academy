@@ -43,18 +43,18 @@ export default function TrialClassPage() {
   const openWhatsApp = () => {
     if (!whatsappNumber) return;
     
-    const message = `Hello BrainSeekers Chess Academy,
+    const message = `Hello BrainSeekers Chess Academy! ♟️
 
-I would like to book a FREE Trial Chess Class.
+I'm interested in booking a FREE Trial Chess Class. Here are the details:
 
-Name: ${formData.studentName}
-Mobile Number: ${formData.mobile}
-Age: ${formData.age}
-Chess Experience: ${formData.chessLevel}
+👤 Student Name: ${formData.studentName}
+📱 Mobile Number: ${formData.mobile}
+🎂 Age: ${formData.age}
+🎯 Chess Experience Level: ${formData.chessLevel}${formData.email ? `\n📧 Email: ${formData.email}` : ""}${formData.notes ? `\n📝 Additional Notes: ${formData.notes}` : ""}
 
-Please share available batches, timings, and trial class schedule.
+Could you please share the available batches, timings, and the trial class schedule?
 
-Thank You.`;
+Thank you!`;
 
     const encodedMessage = encodeURIComponent(message);
     const numericWhatsapp = whatsappNumber.replace(/\D/g, '');

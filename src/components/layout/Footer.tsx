@@ -105,19 +105,19 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-royal-500 shrink-0 mt-0.5" />
                 <span className="text-slate-400 text-sm leading-relaxed">
-                  128 Grandmaster Way, Suite 400, Silicon Valley, CA
+                  New Manish Nagar , Nagpur , Maharashtra.
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-royal-500 shrink-0" />
-                <a href="tel:+18005552437" className="text-slate-400 hover:text-white text-sm transition-colors">
-                  +1 (800) 555-CHES
+                <a href="tel:+918485079068" className="text-slate-400 hover:text-white text-sm transition-colors">
+                  +91 8485079068
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-royal-500 shrink-0" />
-                <a href="mailto:info@brainseekerschess.com" className="text-slate-400 hover:text-white text-sm transition-colors">
-                  info@brainseekerschess.com
+                <a href="mailto:brainseekerschessacademy@gmail.com" className="text-slate-400 hover:text-white text-sm transition-colors">
+                  brainseekerschessacademy@gmail.com
                 </a>
               </li>
             </ul>
