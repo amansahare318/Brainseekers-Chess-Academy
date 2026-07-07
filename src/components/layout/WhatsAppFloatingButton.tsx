@@ -14,11 +14,10 @@ export default function WhatsAppFloatingButton() {
 
   if (!mounted) return null;
 
-  const numericWhatsapp = whatsapp ? whatsapp.replace(/\D/g, '') : '';
+  const FALLBACK_NUMBER = "918485079048";
+  const numericWhatsapp = whatsapp ? whatsapp.replace(/\D/g, '') : FALLBACK_NUMBER;
   const message = encodeURIComponent("Hello BrainSeekers Chess Academy, I have an inquiry about chess classes.");
-  const href = numericWhatsapp
-    ? `https://wa.me/${numericWhatsapp}?text=${message}`
-    : `https://wa.me/?text=${message}`;
+  const href = `https://wa.me/${numericWhatsapp}?text=${message}`;
 
   return (
     <motion.a
