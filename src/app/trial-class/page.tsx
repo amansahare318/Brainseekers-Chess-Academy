@@ -5,10 +5,12 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, ArrowLeft, CheckCircle, MessageCircle } from "lucide-react";
 import { createLeadPublic } from "@/lib/leads";
-import { apiRequest, ApiError } from "@/lib/api";
+import { apiRequest } from "@/lib/api";
 import { ChessLevel } from "@/types/academy";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+const FALLBACK_WHATSAPP = "918485079048";
 
 export default function TrialClassPage() {
   const [formData, setFormData] = useState({
@@ -22,12 +24,9 @@ export default function TrialClassPage() {
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const FALLBACK_WHATSAPP = "918485079048";
   const [whatsappNumber, setWhatsappNumber] = useState(FALLBACK_WHATSAPP);
 
   useEffect(() => {
-    // Fetch settings for WhatsApp number
     const fetchSettings = async () => {
       try {
         const settings = await apiRequest<any>('/api/settings');
@@ -35,43 +34,49 @@ export default function TrialClassPage() {
           setWhatsappNumber(settings.whatsapp);
         }
       } catch (err) {
-        console.error("Failed to fetch settings", err);
+        // Settings fetch failed — fallback number is already set
       }
     };
     fetchSettings();
   }, []);
 
-  const openWhatsApp = () => {
-    if (!whatsappNumber) return;
-    
+  const buildWhatsAppUrl = () => {
     const message = `Hello BrainSeekers Chess Academy! ♟️
 
-I'm interested in booking a FREE Trial Chess Class. Here are the details:
+I want to book a free trial class. Here are my details:
 
 👤 Student Name: ${formData.studentName}
 📱 Mobile Number: ${formData.mobile}
 🎂 Age: ${formData.age}
-🎯 Chess Experience Level: ${formData.chessLevel}${formData.email ? `\n📧 Email: ${formData.email}` : ""}${formData.notes ? `\n📝 Additional Notes: ${formData.notes}` : ""}
+🎯 Chess Level: ${formData.chessLevel}${formData.email ? `\n📧 Email: ${formData.email}` : ""}${formData.notes ? `\n📝 Additional Notes: ${formData.notes}` : ""}
 
-Could you please share the available batches, timings, and the trial class schedule?
+Please share available trial class timings and batch details.
 
 Thank you!`;
 
     const encodedMessage = encodeURIComponent(message);
-    const numericWhatsapp = whatsappNumber.replace(/\D/g, '');
-    window.open(`https://wa.me/${numericWhatsapp}?text=${encodedMessage}`, '_blank');
+    const numericWhatsapp = whatsappNumber.replace(/\D/g, '') || FALLBACK_WHATSAPP;
+    return `https://wa.me/${numericWhatsapp}?text=${encodedMessage}`;
+  };
+
+  const openWhatsApp = () => {
+    window.open(buildWhatsAppUrl(), '_blank');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
 
     if (!formData.studentName || !formData.age || !formData.mobile) {
-      setError("Please fill out all required fields.");
       return;
     }
 
     setSubmitting(true);
+
+    // Open WhatsApp immediately — this is the primary action
+    openWhatsApp();
+    setSubmitted(true);
+
+    // Try to save lead in background (non-blocking, fire-and-forget)
     try {
       await createLeadPublic({
         studentName: formData.studentName,
@@ -83,15 +88,10 @@ Thank you!`;
         city: "Pending",
         address: "To be confirmed",
         studentMobile: formData.mobile,
-        learningGoal: formData.notes || "Trial Request",
+        learningGoal: formData.notes || "Free trial class request",
       });
-      setSubmitted(true);
-      
-      if (whatsappNumber) {
-        openWhatsApp();
-      }
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Registration failed. Please try again.");
+    } catch {
+      // Backend save failed silently — WhatsApp already opened
     } finally {
       setSubmitting(false);
     }
@@ -212,8 +212,6 @@ Thank you!`;
                       />
                     </div>
 
-                    {error && <p className="text-sm text-red-400">{error}</p>}
-
                     <div className="pt-2">
                       <button
                         type="submit"
@@ -221,7 +219,7 @@ Thank you!`;
                         className="w-full px-6 py-4 rounded-xl bg-[#25D366] hover:bg-[#128C7E] text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2 transition-colors shadow-lg shadow-[#25D366]/20"
                       >
                         {submitting ? (
-                          "Submitting..."
+                          "Sending..."
                         ) : (
                           <>
                             <MessageCircle className="w-4 h-4" />
@@ -248,24 +246,18 @@ Thank you!`;
                   <div className="space-y-3">
                     <h2 className="font-display font-extrabold text-3xl text-white">Trial Request Submitted Successfully</h2>
                     <p className="text-slate-400 text-base max-w-md mx-auto">
-                      Your inquiry has been received. Our team will assist you shortly.
+                      If WhatsApp didn&apos;t open automatically, you can open it here:
                     </p>
                   </div>
                   
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                    {whatsappNumber ? (
-                      <button
-                        onClick={openWhatsApp}
-                        className="w-full sm:w-auto px-8 py-3 rounded-full bg-[#25D366] hover:bg-[#128C7E] text-sm font-bold text-white flex items-center justify-center gap-2 transition-colors"
-                      >
-                        <MessageCircle className="w-5 h-5" />
-                        Open WhatsApp Again
-                      </button>
-                    ) : (
-                      <div className="p-4 rounded-xl bg-amber-950/40 border border-amber-500/20 text-amber-400 text-sm">
-                        WhatsApp contact is currently unavailable.
-                      </div>
-                    )}
+                    <button
+                      onClick={openWhatsApp}
+                      className="w-full sm:w-auto px-8 py-3 rounded-full bg-[#25D366] hover:bg-[#128C7E] text-sm font-bold text-white flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      Open WhatsApp Again
+                    </button>
                     <Link
                       href="/"
                       className="w-full sm:w-auto px-8 py-3 rounded-full bg-slate-900 border border-white/10 text-sm font-bold text-slate-300 hover:text-white transition-colors"
